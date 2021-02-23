@@ -1,11 +1,14 @@
 from camera import Camera
 
+HOME_CAMERA = 'rtsp://admin:@192.168.1.10'
 
-CAMERA_URL = 'rtsp://admin:@192.168.1.10'
-VIDEO_LENGTH = 30
+CAMERA_FPS = 25.0
+VIDEO_DIR = 'video'
+VIDEO_LENGTH = 60
+
 
 if __name__ == '__main__':
-    camera = Camera(CAMERA_URL, VIDEO_LENGTH)
+    camera = Camera(HOME_CAMERA, fps=CAMERA_FPS)
 
     while True:
         camera.run()
