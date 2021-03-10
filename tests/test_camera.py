@@ -7,7 +7,7 @@ from cv2 import VideoCapture, VideoWriter
 
 sys.path.append(os.path.join(os.getcwd(), '..'))
 
-from camera import Camera
+from camera_opencv import Camera
 
 
 # CAMERA_URL = 'rtsp://admin:@192.168.1.10'

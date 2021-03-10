@@ -6,17 +6,15 @@ import cv2
 
 class Camera:
     def __init__(self, url, fps, length_of_video=60, directory='video'):
-        self.time = None
-        self.file_name = None
-        self.video_writer = None
-        self.path_to_video = None
         self.fps = fps
         self.directory = directory
-        self.url = url
-        self.capture = cv2.VideoCapture(self.url) if self.url else cv2.VideoCapture(0)
+        self.url = url if url else 0
+        self.capture = cv2.VideoCapture(self.url)
+
         # Извлекает разрешение видео из камеры
         self.width = int(self.capture.get(cv2.CAP_PROP_FRAME_WIDTH))
         self.height = int(self.capture.get(cv2.CAP_PROP_FRAME_HEIGHT))
+
         self.length_of_video = length_of_video
         self.get_path_to_video()
         self.fourcc = cv2.VideoWriter_fourcc(*'XVID')
@@ -33,17 +31,16 @@ class Camera:
         self.path_to_video = os.path.join(self.directory, self.file_name)
 
     def get_video_writer(self):
-        # Класс, который умеет записывать видео, 3 аргумент - фпс
         self.video_writer = cv2.VideoWriter(
-            self.path_to_video, self.fourcc, self.fps, (self.width, self.height))
+            self.path_to_video,
+            self.fourcc,
+            self.fps,
+            (self.width, self.height)
+        )
 
     def clean_memory(self):
-        # Освобождение в памяти места, занимаемого захватчиком видео
-        if self.capture:
-            self.capture.release()
-        # Освобождение в памяти места, занимаемого писарем видео
-        if self.video_writer:
-            self.video_writer.release()
+        self.capture.release()
+        self.video_writer.release()
 
     def save_frame(self, ret, frame):
         if not self.video_writer:
@@ -55,6 +52,7 @@ class Camera:
                self.time.minute // self.length_of_video
 
     def run(self):
+
         if self.next_file_time():
             self.get_path_to_video()
             self.get_video_writer()
@@ -62,8 +60,9 @@ class Camera:
         ret, frame = self.get_frame()
 
         if ret:
-            # Вызовет окно с показом фрэйма с указанным именем окна
+            """ Blocking function. Opens OpenCV window to display stream. """
             cv2.imshow(self.url, frame)
+
             self.save_frame(ret, frame)
 
         if cv2.waitKey(1) & 0xFF == ord('q'):
