@@ -1,6 +1,6 @@
 HOME_CAMERA = {
-    'ip':'192.168.1.10',
-    'login':'admin',
+    'ip': '192.168.1.10',
+    'login': 'admin',
     'password': '',
     'port': '554',
 }

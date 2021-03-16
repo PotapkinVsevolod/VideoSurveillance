@@ -1,24 +1,4 @@
-Pipelines на запись в файл
-
-Рабочий pipeline для записи mp4, но качество хреновое.
-gst-launch-1.0 -e rtspsrc location=rtsp://admin:@192.168.1.10:554 ! decodebin ! avenc_mpeg4 ! mp4mux ! filesink location=file.avi
-
-Промежуточный рабочий вариант
-gst-launch-1.0 -e rtspsrc location=rtsp://admin:@192.168.1.10:554 caps="application/x-rtp", media=video, clock-rate=90000, encoding-name=H265 ! decodebin ! avenc_mpeg4 ! mp4mux ! filesink location=file.avi
-
-Хорошее качество, но весит безумно
-gst-launch-1.0 -e rtspsrc location=rtsp://admin:@192.168.1.10:554 ! decodebin ! matroskamux ! filesink location=file.mkv
-
-Самый лучший pipeline
-gst-launch-1.0 -e rtspsrc location=rtsp://admin:@192.168.1.10:554 ! rtph264depay ! h264parse ! matroskamux ! filesink location=file.mkv
-
-************************************************************************************************************************
-Pipelines на показ видео на мониторе
-
-Рабочий вариант
-gst-launch-1.0 -e rtspsrc location=rtsp://admin:@192.168.1.10:554 ! decodebin ! autovideosink
-
-Тестовый рабочий вариант
-gst-launch-1.0 -e rtspsrc location=rtsp://admin:@192.168.1.10:554 ! rtph264depay ! avdec_h264 ! autovideosink
-
-
+Remote
+"rtspsrc location='rtso://admin:AdminF13@178.176.243.64:8011' ! decodebin"
+Home
+"rtspsrc location='rtso://admin:@192.168.1.10:554' ! decodebin"
